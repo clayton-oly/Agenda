@@ -1,0 +1,41 @@
+﻿@page
+@model UsuarioCreate
+@{
+    ViewData["Title"] = "Criar Usuário";
+}
+
+@if (TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["MensagemSucesso"]
+    </div>
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form id="formulario" method="post">
+    <label>Nome:</label>
+    <input type="text" asp-for="Usuario.Nome" maxlength="100" required class="form-control" /><br />
+
+    <label>Apelido:</label>
+    <input type="text" asp-for="Usuario.Apelido" maxlength="100" class="form-control" /><br />
+
+    <label>CPF:</label>
+    <input type="text" asp-for="Usuario.CPF" required minlength="11" maxlength="14" class="form-control cpf-mask" placeholder="000.000.000-00" /><br />
+
+    <label>Telefone:</label>
+    <input type="text" asp-for="Usuario.Telefone" required class="form-control telefone-mask" maxlength="15" minlength="10" placeholder="(11)98425-2324" /><br />
+
+    <label>Email:</label>
+    <input type="email" asp-for="Usuario.Email" maxlength="100" required class="form-control" /><br />
+
+    @if (TempData["MensagemAlerta"] != null)
+    {
+        <div class="alert alert-warning">
+            @TempData["MensagemAlerta"]
+        </div>
+    }
+
+    <button type="submit" class="btn btn-primary">Salvar</button>
+    <a asp-page="/Index" class="btn btn-secondary">Cancelar</a>
+</form>

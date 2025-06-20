@@ -1,0 +1,31 @@
+﻿@page "{id:int}"
+@model UsuarioDelete
+
+@{
+    ViewData["Title"] = "Excluir Usuário";
+}
+
+@if (TempData["MensagemSucesso"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["MensagemSucesso"]
+    </div>
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<h3>Tem certeza que deseja excluir este usuário?</h3>
+
+<div>
+    <p><strong>Nome:</strong> @Model.Usuario.Nome</p>
+    <p><strong>Apelido:</strong> @Model.Usuario.Apelido</p>
+    <p><strong>CPF:</strong> @Model.Usuario.CPF</p>
+    <p><strong>Telefone:</strong> @Model.Usuario.Telefone</p>
+    <p><strong>Email:</strong> @Model.Usuario.Email</p>
+</div>
+
+<form method="post">
+    <input type="hidden" asp-for="Usuario.Id_Usuario" />
+    <button type="submit" class="btn btn-danger">Excluir</button>
+    <a asp-page="/Index" class="btn btn-secondary">Cancelar</a>
+</form>
