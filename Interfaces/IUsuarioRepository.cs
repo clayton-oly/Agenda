@@ -1,6 +1,6 @@
 ﻿using Agenda.Models;
 
-namespace Agenda.Data
+namespace Agenda.Interfaces
 {
     public interface IUsuarioRepository
     {

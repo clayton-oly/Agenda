@@ -1,4 +1,4 @@
-using Agenda.Data;
+using Agenda.Interfaces;
 using Agenda.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;

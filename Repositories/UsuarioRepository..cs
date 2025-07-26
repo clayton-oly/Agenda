@@ -1,15 +1,18 @@
-﻿using Agenda.Models;
+﻿using Agenda.Data;
+using Agenda.Interfaces;
+using Agenda.Models;
+using Microsoft.AspNetCore.Connections;
 using Npgsql;
 
-namespace Agenda.Data
+namespace Agenda.Repositories
 {
     public class UsuarioRepository : IUsuarioRepository
     {
-        private readonly DbConexaoFactory _conexaoFactory;
+        private readonly AgendaDbConnectionFactory _connectionFactory;
 
-        public UsuarioRepository(DbConexaoFactory conexaoFactory)
+        public UsuarioRepository(AgendaDbConnectionFactory connectionFactory)
         {
-            _conexaoFactory = conexaoFactory;
+            _connectionFactory = connectionFactory;
         }
 
         public List<Usuario> ListarTodosUsuarios()
@@ -18,7 +21,7 @@ namespace Agenda.Data
 
             var sql = @"SELECT * FROM VW_UsuarioHistorico";
 
-            using var conn = _conexaoFactory.Conectar();
+            using var conn = _connectionFactory.CreateConnection();
             using var cmd = new NpgsqlCommand(sql, (NpgsqlConnection)conn);
             using var reader = cmd.ExecuteReader();
 
@@ -48,7 +51,7 @@ namespace Agenda.Data
 
         public void InserirUsuario(Usuario usuario)
         {
-            using var conn = _conexaoFactory.Conectar();
+            using var conn = _connectionFactory.CreateConnection();
             using var cmd = new NpgsqlCommand("CALL sp_inserir_usuario(@nome, @apelido, @cpf, @telefone, @email)", (NpgsqlConnection)conn);
 
             cmd.Parameters.AddWithValue("@nome", usuario.Nome);
@@ -62,7 +65,7 @@ namespace Agenda.Data
 
         public Usuario BuscarPorId(int id)
         {
-            using var conn = _conexaoFactory.Conectar();
+            using var conn = _connectionFactory.CreateConnection();
             var sql = "SELECT * FROM Usuario WHERE id_usuario = @id";
 
             using var cmd = new NpgsqlCommand(sql, (NpgsqlConnection)conn);
@@ -88,7 +91,7 @@ namespace Agenda.Data
 
         public bool BuscarPorCPF(string cpf)
         {
-            using var conn = _conexaoFactory.Conectar();
+            using var conn = _connectionFactory.CreateConnection();
             string sql = "SELECT FROM Usuario WHERE cpf = @cpf";
 
             using var cmd = new NpgsqlCommand(sql, (NpgsqlConnection)conn);
@@ -100,7 +103,7 @@ namespace Agenda.Data
 
         public void AtualizarUsuario(Usuario usuario)
         {
-            using var conn = _conexaoFactory.Conectar();
+            using var conn = _connectionFactory.CreateConnection();
             var sql = @"UPDATE Usuario SET nome = @nome, apelido = @apelido, cpf = @cpf, telefone = @telefone, email = @email WHERE id_usuario = @id";
 
             using var cmd = new NpgsqlCommand(sql, (NpgsqlConnection)conn);
@@ -116,7 +119,7 @@ namespace Agenda.Data
 
         public void DeletarUsuario(int id)
         {
-            using var conn = _conexaoFactory.Conectar();
+            using var conn = _connectionFactory.CreateConnection();
             var sql = "DELETE FROM Usuario WHERE id_usuario = @id";
             using var cmd = new NpgsqlCommand(sql, (NpgsqlConnection)conn);
             cmd.Parameters.AddWithValue("@id", id);

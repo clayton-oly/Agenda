@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Agenda.Data;
+using Agenda.Interfaces;
 
 namespace Agenda.Pages
 {

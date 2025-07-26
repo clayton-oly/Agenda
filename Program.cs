@@ -1,10 +1,10 @@
-using Npgsql;
-using System.Data;
 using Agenda.Data;
+using Agenda.Interfaces;
+using Agenda.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddScoped<DbConexaoFactory>();
+builder.Services.AddSingleton<AgendaDbConnectionFactory>();
 builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
 
 builder.Services.AddRazorPages();
